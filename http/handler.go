@@ -17,11 +17,11 @@ import (
 type Handler struct {
 	mux *chi.Mux
 
-	BeerService beerapp.BeerService
+	BeerService beerapp.BeerStore
 	Logger      *log.Logger
 }
 
-func NewHandler(s beerapp.BeerService, l *log.Logger) *Handler {
+func NewHandler(s beerapp.BeerStore, l *log.Logger) *Handler {
 
 	h := &Handler{
 		mux:         chi.NewRouter(),
@@ -68,13 +68,13 @@ func (h *Handler) CreateBeer(w http.ResponseWriter, r *http.Request) {
 		h.handleError(w, err, http.StatusInternalServerError)
 	}
 
-	id, err := h.BeerService.CreateBeer(b)
+	beer, err := h.BeerService.CreateBeer(b)
 
 	if err != nil {
 		h.handleError(w, err, http.StatusInternalServerError)
 	}
 
-	h.encodeJSON(w, &createResponse{ID: id})
+	h.encodeJSON(w, &createResponse{ID: beer.ID})
 
 }
 
@@ -130,13 +130,13 @@ func (h *Handler) CreateBeerReview(w http.ResponseWriter, r *http.Request) {
 		h.handleError(w, err, http.StatusInternalServerError)
 	}
 
-	id, err := h.BeerService.CreateReview(review)
+	review, err := h.BeerService.CreateReview(review)
 
 	if err != nil {
 		h.handleError(w, err, http.StatusInternalServerError)
 	}
 
-	h.encodeJSON(w, &createResponse{ID: id})
+	h.encodeJSON(w, &createResponse{ID: review.ID})
 
 }
 

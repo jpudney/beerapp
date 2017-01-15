@@ -21,10 +21,10 @@ type Review struct {
 	Created   *time.Time `json:"created,omitempty"`
 }
 
-type BeerService interface {
+type BeerStore interface {
 	Beers() ([]*Beer, error)
 	Beer(id int) (*Beer, error)
-	CreateBeer(b *Beer) (int, error)
+	CreateBeer(b *Beer) (*Beer, error)
 	Reviews(id int) ([]*Review, error)
-	CreateReview(r *Review) (int, error)
+	CreateReview(r *Review) (*Review, error)
 }

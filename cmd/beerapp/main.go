@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/jpudney/beerapp/cache"
 	"github.com/jpudney/beerapp/http"
 	"github.com/jpudney/beerapp/mysql"
 )
@@ -17,7 +18,13 @@ func main() {
 
 	defer db.Close()
 
-	h := http.NewHandler(&mysql.BeerService{DB: db}, log.New(os.Stdout, "BeerApp: ", log.LstdFlags))
+	cache, err := cache.NewBeerCache(&mysql.BeerStore{DB: db})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	h := http.NewHandler(cache, log.New(os.Stdout, "BeerApp: ", log.LstdFlags))
 
 	s := http.NewServer(":3000", h)
 	defer s.Close()

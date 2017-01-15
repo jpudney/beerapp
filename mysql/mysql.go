@@ -8,8 +8,8 @@ import (
 	"github.com/jpudney/beerapp"
 )
 
-// BeerService represents a MySQL implementation of beerapp.BeerService
-type BeerService struct {
+// BeerStore represents a MySQL implementation of beerapp.BeerStore
+type BeerStore struct {
 	DB *sql.DB
 }
 
@@ -19,7 +19,7 @@ func Open(dsn string) (*sql.DB, error) {
 }
 
 // Beer returns a beer for the given ID
-func (s *BeerService) Beer(id int) (*beerapp.Beer, error) {
+func (s *BeerStore) Beer(id int) (*beerapp.Beer, error) {
 	b := new(beerapp.Beer)
 
 	row := s.DB.QueryRow("SELECT id, name, brewery, abv, short_description, created FROM beers WHERE id = ?", id)
@@ -32,7 +32,7 @@ func (s *BeerService) Beer(id int) (*beerapp.Beer, error) {
 }
 
 // Beers returns all beers
-func (s *BeerService) Beers() ([]*beerapp.Beer, error) {
+func (s *BeerStore) Beers() ([]*beerapp.Beer, error) {
 	beers := make([]*beerapp.Beer, 0)
 
 	rows, err := s.DB.Query("SELECT id, name, brewery, abv, short_description, created FROM beers")
@@ -55,31 +55,41 @@ func (s *BeerService) Beers() ([]*beerapp.Beer, error) {
 }
 
 // CreateBeer creates a beer
-func (s *BeerService) CreateBeer(b *beerapp.Beer) (int, error) {
+func (s *BeerStore) CreateBeer(b *beerapp.Beer) (*beerapp.Beer, error) {
 
 	stmt, err := s.DB.Prepare("INSERT INTO beers (name, brewery, abv, short_description) VALUES (?, ?, ?, ?)")
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	result, err := stmt.Exec(b.Name, b.Brewery, b.Abv, b.ShortDescription)
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	lastInsertedID, err := result.LastInsertId()
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
-	return int(lastInsertedID), err
+	beer := &beerapp.Beer{}
+
+	// select the inserted result
+	row := s.DB.QueryRow("SELECT * FROM beers WHERE id = ?", lastInsertedID)
+
+	if err := row.Scan(beer); err != nil {
+		// may want to check err == sql.ErrNoRows and return a better error
+		return nil, err
+	}
+
+	return beer, nil
 }
 
 // Reviews returns reviews the given beer ID
-func (s *BeerService) Reviews(id int) ([]*beerapp.Review, error) {
+func (s *BeerStore) Reviews(id int) ([]*beerapp.Review, error) {
 	reviews := make([]*beerapp.Review, 0)
 
 	rows, err := s.DB.Query("SELECT id, beer_id, first_name, last_name, score, text, created FROM reviews WHERE beer_id = ?", id)
@@ -105,25 +115,35 @@ func (s *BeerService) Reviews(id int) ([]*beerapp.Review, error) {
 }
 
 // CreateReview creates a review
-func (s *BeerService) CreateReview(r *beerapp.Review) (int, error) {
+func (s *BeerStore) CreateReview(r *beerapp.Review) (*beerapp.Review, error) {
 
 	stmt, err := s.DB.Prepare("INSERT INTO reviews (beer_id, first_name, last_name, score, text) VALUES (?, ?, ?, ?, ?)")
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	result, err := stmt.Exec(r.BeerID, r.FirstName, r.LastName, r.Score, r.Text)
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	lastInsertedID, err := result.LastInsertId()
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
-	return int(lastInsertedID), err
+	review := &beerapp.Review{}
+
+	// select the inserted result
+	row := s.DB.QueryRow("SELECT * FROM reviews WHERE id = ?", lastInsertedID)
+
+	if err := row.Scan(review); err != nil {
+		// may want to check err == sql.ErrNoRows and return a better error
+		return nil, err
+	}
+
+	return review, nil
 }

@@ -3,11 +3,11 @@ package mocks
 import "github.com/jpudney/beerapp"
 import "github.com/stretchr/testify/mock"
 
-type BeerService struct {
+type BeerStore struct {
 	mock.Mock
 }
 
-func (_m *BeerService) Beers() ([]*beerapp.Beer, error) {
+func (_m *BeerStore) Beers() ([]*beerapp.Beer, error) {
 	ret := _m.Called()
 
 	var r0 []*beerapp.Beer
@@ -28,7 +28,7 @@ func (_m *BeerService) Beers() ([]*beerapp.Beer, error) {
 
 	return r0, r1
 }
-func (_m *BeerService) Beer(id int) (*beerapp.Beer, error) {
+func (_m *BeerStore) Beer(id int) (*beerapp.Beer, error) {
 	ret := _m.Called(id)
 
 	var r0 *beerapp.Beer
@@ -49,14 +49,16 @@ func (_m *BeerService) Beer(id int) (*beerapp.Beer, error) {
 
 	return r0, r1
 }
-func (_m *BeerService) CreateBeer(b *beerapp.Beer) (int, error) {
+func (_m *BeerStore) CreateBeer(b *beerapp.Beer) (*beerapp.Beer, error) {
 	ret := _m.Called(b)
 
-	var r0 int
-	if rf, ok := ret.Get(0).(func(*beerapp.Beer) int); ok {
+	var r0 *beerapp.Beer
+	if rf, ok := ret.Get(0).(func(*beerapp.Beer) *beerapp.Beer); ok {
 		r0 = rf(b)
 	} else {
-		r0 = ret.Get(0).(int)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*beerapp.Beer)
+		}
 	}
 
 	var r1 error
@@ -68,7 +70,7 @@ func (_m *BeerService) CreateBeer(b *beerapp.Beer) (int, error) {
 
 	return r0, r1
 }
-func (_m *BeerService) Reviews(id int) ([]*beerapp.Review, error) {
+func (_m *BeerStore) Reviews(id int) ([]*beerapp.Review, error) {
 	ret := _m.Called(id)
 
 	var r0 []*beerapp.Review
@@ -89,14 +91,16 @@ func (_m *BeerService) Reviews(id int) ([]*beerapp.Review, error) {
 
 	return r0, r1
 }
-func (_m *BeerService) CreateReview(r *beerapp.Review) (int, error) {
+func (_m *BeerStore) CreateReview(r *beerapp.Review) (*beerapp.Review, error) {
 	ret := _m.Called(r)
 
-	var r0 int
-	if rf, ok := ret.Get(0).(func(*beerapp.Review) int); ok {
+	var r0 *beerapp.Review
+	if rf, ok := ret.Get(0).(func(*beerapp.Review) *beerapp.Review); ok {
 		r0 = rf(r)
 	} else {
-		r0 = ret.Get(0).(int)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*beerapp.Review)
+		}
 	}
 
 	var r1 error

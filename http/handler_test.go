@@ -18,7 +18,7 @@ import (
 
 func TestGetBeer(t *testing.T) {
 
-	s := new(mocks.BeerService)
+	s := new(mocks.BeerStore)
 
 	s.On("Beer", 1).Return(&beerapp.Beer{
 		ID:   1,
