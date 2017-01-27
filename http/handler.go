@@ -15,7 +15,7 @@ import (
 )
 
 type Handler struct {
-	mux *chi.Mux
+	*chi.Mux
 
 	BeerService beerapp.BeerStore
 	Logger      *log.Logger
@@ -24,22 +24,18 @@ type Handler struct {
 func NewHandler(s beerapp.BeerStore, l *log.Logger) *Handler {
 
 	h := &Handler{
-		mux:         chi.NewRouter(),
+		Mux:         chi.NewRouter(),
 		BeerService: s,
 		Logger:      l,
 	}
 
-	h.mux.Get("/beers", h.GetBeers)
-	h.mux.Post("/beers", h.CreateBeer)
-	h.mux.Get("/beers/:id", h.GetBeer)
-	h.mux.Get("/beers/:id/reviews", h.GetBeerReviews)
-	h.mux.Post("/beers/:id/review", h.CreateBeerReview)
+	h.Get("/beers", h.GetBeers)
+	h.Post("/beers", h.CreateBeer)
+	h.Get("/beers/:id", h.GetBeer)
+	h.Get("/beers/:id/reviews", h.GetBeerReviews)
+	h.Post("/beers/:id/review", h.CreateBeerReview)
 
 	return h
-}
-
-func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	h.mux.ServeHTTP(w, r)
 }
 
 type getBeersResponse struct {
