@@ -1,6 +1,6 @@
 package mocks
 
-import "github.com/jpudney/beerapp"
+import "github.com/katzien/beerapp"
 import "github.com/stretchr/testify/mock"
 
 type BeerStore struct {

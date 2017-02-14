@@ -10,7 +10,7 @@ import (
 
 	"strconv"
 
-	"github.com/jpudney/beerapp"
+	"github.com/katzien/beerapp"
 	"github.com/pressly/chi"
 )
 
@@ -58,7 +58,7 @@ type createResponse struct {
 
 func (h *Handler) CreateBeer(w http.ResponseWriter, r *http.Request) {
 
-	var b *beerapp.Beer
+	b := &beerapp.Beer{}
 
 	if err := json.NewDecoder(r.Body).Decode(b); err != nil {
 		h.handleError(w, err, http.StatusInternalServerError)
