@@ -135,10 +135,10 @@ func (s *BeerStore) CreateReview(r *beerapp.Review) (*beerapp.Review, error) {
 		return nil, err
 	}
 
+	// select the inserted result
 	review := &beerapp.Review{}
 
-	// select the inserted result
-	row := s.DB.QueryRow("SELECT * FROM reviews WHERE id = ?", lastInsertedID)
+	row := s.DB.QueryRow("SELECT id, beer_id, first_name, last_name, score, text, created FROM reviews WHERE id = ?", lastInsertedID)
 
 	if err := row.Scan(review); err != nil {
 		// may want to check err == sql.ErrNoRows and return a better error
