@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/jpudney/beerapp"
-	"github.com/jpudney/beerapp/mysql"
+	"github.com/katzien/beerapp"
+	"github.com/katzien/beerapp/mysql"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +28,7 @@ func TestBeerService_Beers_AllTheBeers(t *testing.T) {
 		WithArgs(1).
 		WillReturnRows(sqlmock.NewRows(columns).AddRow(1, "Best Bitter", "T&R Theakston Ltd", 3.8, "Theakston Best Bitter is the leading session ale within the Theakston portfolio and has been for time immemorial. It is quite possible that when Robert Theakston founded the brewery in 1827 the range of ales would have been limited to just two or three of which almost certainly, one would have been a bitter beer. Consequently it would be reasonable to argue that Theakston Best Bitter is one of the longest established session ales in Yorkshire.", now))
 
-	s := &mysql.BeerService{
+	s := &mysql.BeerStore{
 		DB: db,
 	}
 

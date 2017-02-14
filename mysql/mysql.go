@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/jpudney/beerapp"
+	"github.com/katzien/beerapp"
 )
 
 // BeerStore represents a MySQL implementation of beerapp.BeerStore
@@ -78,9 +78,9 @@ func (s *BeerStore) CreateBeer(b *beerapp.Beer) (*beerapp.Beer, error) {
 	beer := &beerapp.Beer{}
 
 	// select the inserted result
-	row := s.DB.QueryRow("SELECT * FROM beers WHERE id = ?", lastInsertedID)
+	row := s.DB.QueryRow("SELECT id, name, brewery, abv, short_description, created FROM beers WHERE id = ?", lastInsertedID)
 
-	if err := row.Scan(beer); err != nil {
+	if err := row.Scan(&b.ID, &b.Name, &b.Brewery, &b.Abv, &b.ShortDescription, &b.Created); err != nil {
 		// may want to check err == sql.ErrNoRows and return a better error
 		return nil, err
 	}

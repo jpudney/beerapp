@@ -10,9 +10,9 @@ import (
 
 	"strings"
 
-	"github.com/jpudney/beerapp"
-	"github.com/jpudney/beerapp/http"
-	"github.com/jpudney/beerapp/mocks"
+	"github.com/katzien/beerapp"
+	"github.com/katzien/beerapp/http"
+	"github.com/katzien/beerapp/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
