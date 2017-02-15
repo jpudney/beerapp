@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/katzien/beerapp/cache"
-	"github.com/katzien/beerapp/http"
-	"github.com/katzien/beerapp/mysql"
+	"github.com/jpudney/beerapp/cache"
+	"github.com/jpudney/beerapp/http"
+	"github.com/jpudney/beerapp/mysql"
 )
 
 func main() {

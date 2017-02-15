@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/katzien/beerapp"
-	"github.com/katzien/beerapp/mysql"
+	"github.com/jpudney/beerapp"
+	"github.com/jpudney/beerapp/mysql"
 	"github.com/stretchr/testify/assert"
 )
 

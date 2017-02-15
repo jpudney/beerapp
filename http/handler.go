@@ -10,7 +10,7 @@ import (
 
 	"strconv"
 
-	"github.com/katzien/beerapp"
+	"github.com/jpudney/beerapp"
 	"github.com/pressly/chi"
 )
 
