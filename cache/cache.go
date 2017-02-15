@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/katzien/beerapp"
+import "github.com/jpudney/beerapp"
 
 type BeerCache struct {
 	beers   map[int]*beerapp.Beer
