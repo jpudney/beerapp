@@ -24,3 +24,15 @@ $ curl http://localhost:3000/beers/2/reviews
 {"reviews":[{"id":1,"beer_id":2,"first_name":"Bob","last_name":"Thornton","score":4,"text":"Incredible beer, copper in colour.","created":"2017-01-09T19:00:59Z"},{"id":2,"beer_id":2,"first_name":"Ted","last_name":"Newton","score":1,"text":"Not the nicest beer.","created":"2017-01-09T12:30:12Z"}]}
 ```
 
+Example POST request:
+```
+curl -X "POST" "http://localhost:3000/beers" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "brewery": "HP Bulmer Ltd",
+  "name": "Old Mout Cider",
+  "abv": 4,
+  "short_description": "Kiwi & lime - what do you expect?"
+}'
+```
+
