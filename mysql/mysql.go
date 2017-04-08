@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/jpudney/beerapp"
+	"github.com/katzien/beerapp"
 )
 
 // BeerStore represents a MySQL implementation of beerapp.BeerStore
